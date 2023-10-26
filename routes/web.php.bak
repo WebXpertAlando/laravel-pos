@@ -1,0 +1,65 @@
+<?php
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return redirect()->route("home");
+});
+Route::get("/about", function () {
+    return view("misc.about");
+})->name("about");
+
+
+Route::get("/reports", function () {
+	return view("reports.reports_index");
+})->name("reports");
+
+Route::get("/sales_show", function() {
+
+    return view("sales.sales_show");
+
+})->name("sales_show");
+
+Auth::routes([
+    "reset" => false,// They can not forget password
+]);
+
+Route::get('home', 'HomeController@index')->name('home');
+// Allow Logout with petition Get
+Route::get("/logout", function () {
+    Auth::logout();
+    return redirect()->route("home");
+})->name("logout");
+
+
+Route::middleware("auth")
+    ->group(function () {
+        Route::resource("clients/", ClientsController::class);
+        Route::resource("products", ProductsController::class);
+		Route::resource("users", UserController::class);
+	    
+		Route::get("/products/", "ProductsController@index")->name("products.index");
+		
+		
+		
+		
+        Route::get("/sales/ticket", "SalesController@ticket")->name("Sales.ticket");
+        Route::resource("sales", "SalesController");
+        Route::get("/vendor", "VendorController@index")->name("vendor.index");
+        Route::post("/salesProduct", "VendorController@addproductSales")->name("addProductSale");
+        Route::delete("/salesProduct", "VendorController@RemoveSaleProduct")->name("RemoveSaleProduct");
+        Route::post("/cancelSale", "VendorController@cancelSale")->name("cancelSale");
+        Route::post("/finishSale", "VendorController@finishSale")->name("endOrCancelSale");
+    });
