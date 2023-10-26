@@ -1,0 +1,56 @@
+@extends("master")
+@section("title", "Add Product")
+@section("contents")
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"><strong>Add Products </div></strong>
+
+                     <div class="card-body">
+
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" action="{{route("products.store")}}">
+                @csrf
+                <div class="form-group">
+                    <label class="label">Barcode</label>
+                    <input required autocomplete="off" name="barcode" class="form-control"
+                           type="text" placeholder="Barcode">
+                </div>
+                <div class="form-group">
+                    <label class="label">Description</label>
+                    <input required autocomplete="off" name="description" class="form-control"
+                           type="text" placeholder="Description">
+                </div>
+                <div class="form-group">
+                    <label class="label">Purchase Price</label>
+                    <input required autocomplete="off" name="purchase_price" class="form-control"
+                           type="decimal(9,2)" placeholder="Purchase Price">
+                </div>
+                <div class="form-group">
+                    <label class="label">Sales Price</label>
+                    <input required autocomplete="off" name="sales_price" class="form-control"
+                           type="decimal(9,2)" placeholder="Sales Price">
+                </div>
+                <div class="form-group">
+                    <label class="label">Existence</label>
+                    <input required autocomplete="off" name="existence" class="form-control"
+                           type="decimal(9,2)" placeholder="Existence">
+                </div>
+
+                @include("notification")
+                <button class="btn btn-warning">Save Items</button>
+                <a class="btn btn-primary" href="{{route("products.index")}}">Back to List</a>
+            </form>
+        </div>
+    </div>
+	</div>
+@endsection

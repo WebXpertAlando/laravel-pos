@@ -1,0 +1,113 @@
+
+@extends("master")
+@section("title", "Items")
+@section("contents")
+<br/>
+<br/>
+<br/>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Items <i class="fa fa-box"></i></h1>
+            <a href="{{route("products.create")}}" class="btn btn-success mb-2">Add Items</a>
+            @include("notification")
+        
+            <div class="table-responsive">
+ 
+                <table class="table table-striped yajra-datatable" id="products-table">
+            
+                  <label for="filter" class="col-sm-2 col-form-label">Filter</label>
+                  <input type="text" class="form-control" id="filter" name="filter" placeholder="Product name..." value="">
+                    <thead>
+                    <tr>
+					    
+                        <th>@sortablelink('barcode', 'Barcode')</th>
+                        <th>@sortablelink('description', 'Description')</th>
+                        <th>@sortablelink('purchase_price', 'Purchase Price')</th>
+                        <th>@sortablelink('sales_price', 'Sales price')</th>
+                        <th>@sortablelink('existence' ,'Existence')</th>
+                     
+
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+        
+                    <tbody>
+                     @if ($products->count() == 0)
+                     <tr>
+                    <td colspan="15" style="color=red";>No Items to display.</td>
+                    </tr>
+                     @endif
+
+                    <tbody>
+                    @foreach($products as $product)
+                        <tr>
+                            <td>{{$product->barcode}}</td>
+                            <td>{{$product->description}}</td>
+                            <td>{{$product->purchase_price}}</td>
+                            <td>{{$product->sales_price}}</td>
+                            <td>{{$product->sales_price - $product->purchase_price}}</td>
+                            <td>{{$product->existence}}</td>
+                            <td>
+                                <a class="btn btn-warning" href="{{route("products.edit",[$product])}}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                            
+                          
+                            <td>
+                                <form action="{{route("products.destroy", [$product])}}" method="post">
+                                    @method("delete")
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                               
+                            </td>
+                        </tr>
+                     
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript"src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>				 
+					 
+ 
+						
+                    @endforeach
+                    </tbody>
+
+                </table>
+
+
+
+{{ $products->links() }}
+
+{!! $products->appends(Request::except('page'))->render() !!}
+
+<p>
+    Displaying {{$products->count()}} of {{ $products->total() }} product(s).
+</p>
+
+</div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+
+
+    </div>
+
+@endsection
+
+

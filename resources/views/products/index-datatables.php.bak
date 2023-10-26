@@ -1,0 +1,47 @@
+@extends("master")
+@section("title", "Items")
+@section("contents")
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Items <i class="fa fa-box"></i></h1>
+            <a href="{{route("products.create")}}" class="btn btn-success mb-2">Add Vendor  Items</a>
+            @include("notification")
+        
+<table id="products-table" class="table table-bordered table-hover" class="display" style="width:100%">
+    <thead>
+      
+        <th>Barcode</th>
+        <th>Description</th>
+        <th>Purchase Price</th>
+		<th>Sales Price</th>
+		<th>Stock</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script>
+$(document).ready(function() {
+    $('#products-table').DataTable({
+        "serverSide": true,
+        "ajax": {
+            url: "{{ action('ProductsController@productsDataSource') }}", 
+            method: "get"
+        },
+        "columnDefs" : [{
+            'targets': [4], 
+            'orderable': false
+        }],
+    });
+});
+</script>
+
+@endsection
+
+</div>

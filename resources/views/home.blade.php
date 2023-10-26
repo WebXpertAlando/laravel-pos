@@ -1,0 +1,81 @@
+@extends('master')
+@section("title", "start")
+@section('contents')
+
+<br/>
+<br/>
+
+    <div class="col-12 text-center">
+        <h1>Welcome, {{Auth::user()->name}}</h1>
+    </div>
+    <div class="card-columns">
+        <a href="{{route("products.index")}}" style="color: black;">
+            <div class="card text-center">
+                <img src="{{url("/img/products.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Products</h1>
+                </div>
+            </div>
+        </a>
+
+
+        <a style="color: black;" href="{{route("reports")}}">
+            <div class="card text-center">
+                <img src="{{url("/img/reports.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Reports</h1>
+                </div>
+            </div>
+        </a>
+		
+		
+
+        <a style="color: black;" target="_blank" href="https://parzibyte.me/blog/contrataciones-ayuda/">
+            <div class="card text-center">
+                <img src="/img/support.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Support</h1>
+                </div>
+            </div>
+        </a>
+        <a style="color: black;" href="{{route("vendor.index")}}">
+            <div class="card text-center">
+                <img src="{{url("/img/vendor.png")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Vendor</h1>
+                </div>
+            </div>
+        </a>
+        <a style="color: black;" href="{{route("about")}}">
+            <div class="card text-center">
+                <img src="{{url("/img/about.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">About</h1>
+                </div>
+            </div>
+        </a>
+		
+		
+		 <a style="color: black;" href="{{route("users.index")}}">
+            <div class="card text-center">
+                <img src="{{url("/img/users.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Users</h1>
+                </div>
+            </div>
+        </a>
+		
+		
+		
+        <a style="color: black;" href="{{route("sales.index")}}">
+            <div class="card text-center">
+                <img src="{{url("/img/sales.jpg")}}" width="80" height="80">
+                <div class="card-body">
+                    <h1 class="card-title">Sales</h1>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    
+@endsection

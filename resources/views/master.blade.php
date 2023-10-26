@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{env("APP_NAME")}}">
+    <meta name="author" content="Parzibyte">
+    <title>@yield("title") - {{env("APP_NAME")}}</title>
+    <link href="{{url("/css/bootstrap.min.css")}}" rel="stylesheet">
+    <link href="{{url("/css/all.min.css")}}" rel="stylesheet">
+	
+	<!-- Data Tables Library Files -->
+	
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet"> 
+ <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />		 
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	
+    <style>
+        body {
+            padding-top: 70px;
+            /*Para la barra inferior fija*/
+            padding-bottom: 70px;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" target="_blank" href="//parzibyte.me/blog">{{env("APP_NAME")}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            id="botonMenu" aria-label="Mostrar u ocultar menú">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav mr-auto">
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">
+                        Register
+                    </a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route("home")}}">Home&nbsp;<i class="fa fa-home fa-3x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route("products.index")}}">Items&nbsp;<i class="fa fa-box fa-3x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route("vendor.index")}}">Vendor&nbsp;<i class="fa fa-cart-plus fa-3x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route("sales.index")}}">Sales&nbsp;<i class="fa fa-list fa-3x"></i></a>
+                </li>
+				
+				<li class="nav-item">
+                    <a class="nav-link" href="{{route("reports")}}">Reports&nbsp;<i class="fa fa-file fa-3x"></i></a>
+				
+                </li>
+               <li class="nav-item">
+               
+            </li>
+				
+		  </ul>
+            @endguest
+       
+        <ul class="navbar-nav ml-auto">
+            @auth
+                <li class="nav-item">
+                    <a href="{{route("logout")}}" class="nav-link">
+                        Logout&nbsp;<i class="fa fa-sign-in-alt fa-4x"></i> ({{ Auth::user()->name }})
+                    </a>
+                </li>
+            @endauth
+           
+        </ul>
+    </div>
+</nav>
+<script type="text/javascript">
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const menu = document.querySelector("#menu"),
+            botonMenu = document.querySelector("#botonMenu");
+        if (menu) {
+            botonMenu.addEventListener("click", () => menu.classList.toggle("show"));
+        }
+    });
+</script>
+<main class="container-fluid">
+    @yield("contents")
+</main>
+<footer class="px-2 py-2 fixed-bottom bg-dark">
+    <span class="text-muted">POINT OF SALE 2022 PRO
+        
+        <strong>Powered By :</strong>
+        <a class="text-white" href="//www.dataxpertsolutions.co.ke">WebXpert Solutions</a> 
+        &nbsp;|&nbsp; 
+        <a target="_blank" class="text-white" href="//www.dataxpert.co.ke/solutions">
+           0723205119
+        </a>
+    </span>
+
+
+ 
+</footer>
+</body>
+</html>
