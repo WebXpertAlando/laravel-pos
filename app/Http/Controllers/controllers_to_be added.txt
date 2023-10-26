@@ -1,0 +1,103 @@
+  public function index() {
+       return view("products.products_index",["products"=>Product::paginate(5)]);
+    }
+
+
+
+
+// Filtering 
+	
+	public function indexFiltering(Request $request)
+{
+    $filter = $request->query('filter');
+
+    if (!empty($filter)) {
+        $products = Product::sortable()
+            ->where('products.description', 'like', '%'.$filter.'%')
+            ->paginate(5);
+    } else {
+        $products = Product::sortable()
+            ->paginate(5);
+    }
+
+    return view('products.products_index')->with('products', $products)->with('filter', $filter);
+}
+	
+	// Sorting 
+	
+	public function indexSorting()
+{
+    $products = Product::sortable()->paginate(5);
+
+    return view('products.products-sorting')->with('products', $products);
+}
+	
+	
+	//DataTables
+	
+	public function indexDatatables()
+{
+    return view('products.index-datatables');
+}
+	
+	
+	// DataSource
+	
+	public function productsDataSource(Request $request) {
+
+    $search = $request->query('search', array('value' => '', 'regex' => false));
+    $draw = $request->query('draw', 0);
+    $start = $request->query('start', 0);
+    $length = $request->query('length', 25);
+    $order = $request->query('order', array(1, 'asc'));        
+
+    $filter = $search['value'];
+
+    $sortColumns = array(
+        0 => 'products.barcode',
+        1 => 'products.description',
+        2 => 'products.purchase_price',
+        3 => 'products.sales_price',
+		4 => 'products.existence',
+    );
+
+    $query = Product::join('products', 'products.id', '=', 'products.id')
+            ->select('products.*', 'products.description as description');
+
+    if (!empty($filter)) {
+        $query->where('products.description', 'like', '%'.$filter.'%');
+    }
+
+    $recordsTotal = $query->count();
+
+    $sortColumnName = $sortColumns[$order[0]['column']];
+
+    $query->orderBy($sortColumnName, $order[0]['dir'])
+            ->take($length)
+            ->skip($start);
+
+    $json = array(
+        'draw' => $draw,
+        'recordsTotal' => $recordsTotal,
+        'recordsFiltered' => $recordsTotal,
+        'data' => [],
+    );
+
+    $products = $query->get();
+
+    foreach ($products as $product) {
+
+        $json['data'][] = [
+            $product->products->id,
+            $product->barcode,
+            $product->description,
+            $product->purchase_price,
+			$product->sales_price,
+			$product->existence,
+            view('products.actions', ['product' => $product])->render(),
+        ];
+    }
+
+    return $json;
+}
+	
